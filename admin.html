@@ -3,17 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Admin - My Thoughts</title>
 </head>
 <body>
-  <h1>Add a New Thought</h1>
-  
+  <h1>Add a Thought</h1>
   <form id="thoughtForm">
-    <textarea id="thoughtInput" placeholder="Write your thought here..." required></textarea>
-    <button type="submit">Add Thought</button>
+    <label>Subject:</label><br>
+    <input type="text" id="subject" required><br><br>
+    <label>Body:</label><br>
+    <textarea id="body" required></textarea><br><br>
+    <button type="submit">Submit</button>
   </form>
 
-  <script type="module" src="script.js"></script>
+  <p id="status"></p>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCr2Gxi-3qskoWywEZ3jzDViCHJgvJ0v-w",
+      authDomain: "blue-38fae.firebaseapp.com",
+      projectId: "blue-38fae",
+      storageBucket: "blue-38fae.firebasestorage.app",
+      messagingSenderId: "317686667558",
+      appId: "1:317686667558:web:d08c3f8c8bbd048ead09e7",
+      measurementId: "G-1LC7WND8Y4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    document.getElementById("thoughtForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const subject = document.getElementById("subject").value;
+      const body = document.getElementById("body").value;
+
+      try {
+        await addDoc(collection(db, "thoughts"), {
+          subject: subject,
+          body: body,
+          timestamp: new Date()
+        });
+        document.getElementById("status").textContent = "✅ Thought saved!";
+        e.target.reset();
+      } catch (error) {
+        console.error("Error adding document: ", error);
+        document.getElementById("status").textContent = "❌ Error saving thought.";
+      }
+    });
+  </script>
 </body>
 </html>
