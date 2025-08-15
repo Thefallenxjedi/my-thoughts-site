@@ -2,20 +2,15 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Add Thought</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Admin</title>
 </head>
 <body>
-  <h1>Add a New Thought</h1>
+  <h1>Add a Thought</h1>
   <form id="thoughtForm">
-    <input type="text" id="title" placeholder="Title" required><br><br>
-    <textarea id="text" placeholder="Your thought..." required></textarea><br><br>
-    <button type="submit">Save</button>
+    <textarea id="thoughtInput" placeholder="Write your thought here..." rows="4" cols="50"></textarea><br>
+    <button type="submit">Add Thought</button>
   </form>
-  <p id="status"></p>
 
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
