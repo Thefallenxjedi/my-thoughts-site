@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Thoughts</title>
-  <style>
-    body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; }
-    .thought { border-bottom: 1px solid #ddd; margin-bottom: 20px; padding-bottom: 10px; }
-    .date { font-size: 0.8em; color: gray; }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <h1>My Thoughts</h1>
-  <div id="thoughts"></div>
   
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
-  <script src="script.js"></script>
+  <div id="thoughts">
+    <p>Loading thoughts...</p>
+  </div>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
