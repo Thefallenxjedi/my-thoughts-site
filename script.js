@@ -17,7 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// If we're on admin.html — allow adding new thoughts
+// If on admin.html — allow adding new thoughts
 if (document.title === "Admin") {
   document.getElementById("thoughtForm").addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -32,7 +32,7 @@ if (document.title === "Admin") {
   });
 }
 
-// If we're on index.html — display all thoughts
+// If on index.html — display all thoughts
 if (document.title === "My Thoughts") {
   async function loadThoughts() {
     const q = query(collection(db, "thoughts"), orderBy("date", "desc"));
