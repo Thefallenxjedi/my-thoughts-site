@@ -1,4 +1,8 @@
-// Your Firebase config
+// Import the functions you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCr2Gxi-3qskoWywEZ3jzDViCHJgvJ0v-w",
   authDomain: "blue-38fae.firebaseapp.com",
@@ -9,42 +13,41 @@ const firebaseConfig = {
   measurementId: "G-1LC7WND8Y4"
 };
 
-// Init Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-// If on index.html → load thoughts
-if (document.getElementById("thoughts")) {
-  db.collection("thoughts").orderBy("date", "desc").onSnapshot(snapshot => {
+// If we're on admin.html — allow adding new thoughts
+if (document.title === "Admin") {
+  document.getElementById("thoughtForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const text = document.getElementById("thoughtInput").value;
+    if (text.trim() === "") return;
+    await addDoc(collection(db, "thoughts"), {
+      text: text,
+      date: new Date()
+    });
+    document.getElementById("thoughtInput").value = "";
+    alert("Thought added!");
+  });
+}
+
+// If we're on index.html — display all thoughts
+if (document.title === "My Thoughts") {
+  async function loadThoughts() {
+    const q = query(collection(db, "thoughts"), orderBy("date", "desc"));
+    const querySnapshot = await getDocs(q);
     const container = document.getElementById("thoughts");
     container.innerHTML = "";
-    snapshot.forEach(doc => {
+    querySnapshot.forEach((doc) => {
       const data = doc.data();
       container.innerHTML += `
         <div class="thought">
-          <h2>${data.title}</h2>
-          <p>${data.text}</p>
+          <div>${data.text}</div>
           <div class="date">${new Date(data.date.seconds * 1000).toLocaleString()}</div>
         </div>
       `;
     });
-  });
-}
-
-// If on admin.html → handle form submit
-if (document.getElementById("thoughtForm")) {
-  document.getElementById("thoughtForm").addEventListener("submit", async e => {
-    e.preventDefault();
-    const title = document.getElementById("title").value;
-    const text = document.getElementById("text").value;
-
-    await db.collection("thoughts").add({
-      title,
-      text,
-      date: new Date()
-    });
-
-    document.getElementById("status").innerText = "Saved!";
-    document.getElementById("thoughtForm").reset();
-  });
+  }
+  loadThoughts();
 }
