@@ -1,51 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Thoughts</title>
-</head>
-<body>
-  <h1>💭 My Thoughts</h1>
-  <div id="thoughtsList"></div>
+<div id="thoughts-container"></div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCr2Gxi-3qskoWywEZ3jzDViCHJgvJ0v-w",
-      authDomain: "blue-38fae.firebaseapp.com",
-      projectId: "blue-38fae",
-      storageBucket: "blue-38fae.firebasestorage.app",
-      messagingSenderId: "317686667558",
-      appId: "1:317686667558:web:d08c3f8c8bbd048ead09e7",
-      measurementId: "G-1LC7WND8Y4"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyCr2Gxi-3qskoWywEZ3jzDViCHJgvJ0v-w",
+    authDomain: "blue-38fae.firebaseapp.com",
+    projectId: "blue-38fae",
+    storageBucket: "blue-38fae.firebasestorage.app",
+    messagingSenderId: "317686667558",
+    appId: "1:317686667558:web:d08c3f8c8bbd048ead09e7",
+    measurementId: "G-1LC7WND8Y4"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-    async function loadThoughts() {
-      const thoughtsContainer = document.getElementById("thoughtsList");
-      thoughtsContainer.innerHTML = "<p>Loading thoughts...</p>";
+  async function loadThoughts() {
+    const q = query(collection(db, "thoughts"), orderBy("date", "desc"));
+    const querySnapshot = await getDocs(q);
 
-      const q = query(collection(db, "thoughts"), orderBy("timestamp", "desc"));
-      const querySnapshot = await getDocs(q);
+    const container = document.getElementById("thoughts-container");
+    container.innerHTML = "";
 
-      thoughtsContainer.innerHTML = "";
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        const div = document.createElement("div");
-        div.style.border = "1px solid #ccc";
-        div.style.margin = "10px 0";
-        div.style.padding = "10px";
-        div.innerHTML = `<h3>${data.subject}</h3><p>${data.body}</p>`;
-        thoughtsContainer.appendChild(div);
-      });
-    }
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const div = document.createElement("div");
+      div.className = "thought";
+      div.textContent = data.text || "No content";
+      container.appendChild(div);
+    });
+  }
 
-    loadThoughts();
-  </script>
-</body>
-</html>
+  loadThoughts();
+</script>
