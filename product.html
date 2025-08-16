@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sourabh Kumar — Products & Portfolio</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f9f9f9; line-height: 1.6; }
+    .container { max-width: 1000px; margin: auto; padding: 20px; }
+    header, footer { text-align: center; margin-bottom: 20px; }
+    nav a { margin: 0 10px; text-decoration: none; color: blue; }
+    h1 { text-align: center; margin-bottom: 30px; }
+    .product-card { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .product-header { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
+    .product-header img { width: 50px; height: 50px; object-fit: contain; border-radius: 6px; }
+    .product-header h2 { margin: 0; font-size: 1.2em; }
+    .role { font-weight: bold; color: #333; margin-bottom: 10px; }
+    .timeline { font-size: 0.9em; color: gray; margin-bottom: 10px; }
+    .tasks { margin-left: 20px; list-style-type: disc; }
+    
+    /* Responsive */
+    @media (max-width: 600px) {
+      .product-header { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Shared Header -->
+    <div id="layout"></div>
+
+    <main>
+      <h1>Products & Portfolio</h1>
+
+      <!-- Product 1: Chatzy.ai -->
+      <div class="product-card">
+        <div class="product-header">
+          <img src="chatzy-logo.png" alt="Chatzy.ai Logo">
+          <h2>Chatzy.ai</h2>
+        </div>
+        <div class="role">Product Consultant · Part-time</div>
+        <div class="timeline">Dec 2024 - Present · Remote</div>
+        <ul class="tasks">
+          <li>Set up key product events to track user engagement.</li>
+          <li>Integrated PostHog for advanced analytics and dashboards.</li>
+          <li>Integrated AWS Pinpoint for targeted email campaigns.</li>
+          <li>Revamped sidebar UI for better navigation.</li>
+        </ul>
+      </div>
+
+      <!-- Product 2: GoodEd Technologies -->
+      <div class="product-card">
+        <div class="product-header">
+          <img src="gooded-logo.png" alt="GoodEd Technologies Logo">
+          <h2>GoodEd Technologies</h2>
+        </div>
+        <div class="role">Product Consultant · Part-time</div>
+        <div class="timeline">Sep 2024 - Present · Remote</div>
+        <ul class="tasks">
+          <li>Focused on fixing bugs and improving existing platform features.</li>
+          <li>Created comprehensive bug tracker and dashboards.</li>
+          <li>Tripled sales and improved MAU by 30% MoM.</li>
+        </ul>
+      </div>
+
+      <!-- You can copy this block for each new company/product -->
+    </main>
+  </div>
+
+  <!-- JS to load shared header/footer -->
+  <script>
+    async function loadLayout() {
+      const res = await fetch("layout.html");
+      document.getElementById("layout").innerHTML = await res.text();
+    }
+    loadLayout();
+  </script>
+</body>
+</html>
