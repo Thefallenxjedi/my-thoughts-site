@@ -3,130 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sourabh Kumar | My Thoughts</title>
+  <title>My Page</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      line-height: 1.6;
-      background: #fff;
-      color: #222;
-    }
-    header {
-      text-align: center;
-      padding: 2rem 1rem;
-      border-bottom: 1px solid #eee;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2.5rem;
-    }
-    header p {
-      margin: 0.3rem 0 0;
-      font-size: 1.2rem;
-      color: #666;
-    }
-    .container {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 2rem;
-      padding: 2rem;
-    }
-    .left {
-      border-right: 1px solid #eee;
-      padding-right: 1rem;
-    }
-    .left h2, .right h2 {
-      margin-top: 0;
-    }
-    .right .thought {
-      border-bottom: 1px solid #eee;
-      padding: 1rem 0;
-    }
-    .nav a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: #0077cc;
-    }
-    .nav {
-      margin-top: 1rem;
-    }
+    body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+    main { max-width: 700px; margin: auto; }
   </style>
-  <!-- Firebase -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, query, orderBy } 
-      from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    async function loadThoughts() {
-      const thoughtsCol = collection(db, "thoughts");
-      const q = query(thoughtsCol, orderBy("date", "desc"));
-      const snapshot = await getDocs(q);
-
-      const container = document.getElementById("thoughts");
-      container.innerHTML = "";
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        const div = document.createElement("div");
-        div.className = "thought";
-        div.innerHTML = `<p>${data.text}</p><small>${data.date.toDate().toDateString()}</small>`;
-        container.appendChild(div);
-      });
-    }
-
-    window.onload = loadThoughts;
-  </script>
 </head>
 <body>
-  <header>
-    <h1><a href="index.html" style="text-decoration:none; color:black;">💭 My Thoughts</a></h1>
-    <p>Be passionate about the territory, not the map</p>
-    <div class="nav">
-      <a href="about.html">About Me</a>
-      <a href="research.html">Research</a>
-      <a href="patents.html">Patents</a>
-      <a href="ai.html">How I use AI</a>
-      <li><a href="product.html">Product</a>
-    </div>
-  </header>
+  <!-- Load shared header + footer -->
+  <div id="layout"></div>
 
-  <section style="text-align:center; padding:1rem;">
-    <p>Hi dear old friends, we both are made of stardust 🌌</p>
-    <p>I am <strong>Sourabh</strong>, and this is my place where I share my raw thoughts with the universe.</p>
-    <p>These days I am enjoying my own company.</p>
-  </section>
+  <!-- Your page-specific content goes here -->
+  <main>
+    <h2>Hi friends 👋</h2>
+    <p>This is my new content. Add anything you like here!</p>
+  </main>
 
-  <div class="container">
-    <div class="left">
-      <h2>Explore</h2>
-      <ul>
-        <li><a href="about.html">About Me</a></li>
-        <li><a href="research.html">Research Articles</a></li>
-        <li><a href="patents.html">Patents</a></li>
-        <li><a href="ai.html">How I Use AI</a></li>
-        <li><a href="product.html">Product</a></li>
-      </ul>
-    </div>
-
-    <div class="right">
-      <h2>Recent Thoughts</h2>
-      <div id="thoughts">
-        <p>Loading thoughts...</p>
-      </div>
-    </div>
-  </div>
+  <script>
+    // Load the shared layout.html
+    fetch("layout.html")
+      .then(res => res.text())
+      .then(html => document.getElementById("layout").innerHTML = html);
+  </script>
 </body>
 </html>
